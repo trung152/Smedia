@@ -10,7 +10,7 @@ import { Input } from "antd";
 import Tooltip from "../common/Tooltip";
 import { PiAsterisk } from "react-icons/pi";
 import { FaRegPaste } from "react-icons/fa6";
-import { isValidUrl } from "@/lib/utils";
+import { isValidUrl, secretKey } from "@/lib/utils";
 import CryptoJS from "crypto-js";
 
 function DownloadSection() {
@@ -19,18 +19,26 @@ function DownloadSection() {
   const router = useRouter();
   const { setSocialAutoLinkData } = useSocialAutoLink();
 
-  const apikey = process.env.NEXT_PUBLIC_SECRET_KEY;
-  console.log("🚀 ~ DownloadSection ~ apikey:", apikey);
   const mutateSocialAutoLink = useMutation({
     mutationFn: (data: any) => getSocialAutoLink(data),
+    onMutate: () => {
+      window.gtag("event", "api_request_start");
+    },
     onError: () => {
+      window.gtag("event", "api_request_start_error");
       console.log("error");
     },
 
     onSuccess: (data) => {
-      console.log("🚀 ~ DownloadSection ~ data:", data)
-      setSocialAutoLinkData(data?.data);
-      router.push("/download");
+      console.log("🚀 ~ DownloadSection ~ data:", data);
+      if (data?.data?.error) {
+        window.gtag("event", "api_request_start_error");
+        setError(data?.data?.message);
+      } else {
+        window.gtag("event", "api_request_start_success");
+        setSocialAutoLinkData(data?.data);
+        router.push("/download");
+      }
     },
   });
 
@@ -52,27 +60,15 @@ function DownloadSection() {
   //   }
   // }, [mutateSocialAutoLink]);
 
-  const handleDownloadToDevice = () => {
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "video_download", {
-        event_category: "Video",
-        event_label: "Download Success",
-        value: 1,
-      });
-      console.log("Download Success");
-    }
-  };
-
   const handleDownloadByLink = () => {
-    console.log("🚀 ~ handleDownloadByLink ~ urlInput:", urlInput);
+    window.gtag("event", "btn_download");
     if (urlInput && isValidUrl(urlInput)) {
       try {
         const data = { url: urlInput };
         const encryptedData = CryptoJS.AES.encrypt(
           JSON.stringify(data),
-          "QOWBh06ELYzWgpsmBxrqzGmtadDob50l"
+          secretKey!
         ).toString();
-        console.log("🚀 ~ handleDownloadByLink ~ encryptedData:");
         mutateSocialAutoLink.mutate({ data: encryptedData });
         // if (result.data) {
         //   if (result.data?.data?.error) {
@@ -83,8 +79,6 @@ function DownloadSection() {
         //   router.push(`/download`);
         // }
       } catch (error) {
-        console.log("🚀 ~ handleDownloadByLink ~ error:", error);
-
         setError("An error occurred while fetching data.");
       }
     } else {
@@ -135,14 +129,14 @@ function DownloadSection() {
                   onFocus={() => setError("")}
                   placeholder="https://"
                   min="0"
-                  // suffix={
-                  //   <Tooltip message="Paste">
-                  //     <FaRegPaste
-                  //       className="text-2xl text-secondary-500"
-                  //       onClick={handlePasteClick}
-                  //     />
-                  //   </Tooltip>
-                  // }
+                  suffix={
+                    <Tooltip message="Paste">
+                      <FaRegPaste
+                        className="text-2xl text-secondary-500"
+                        onClick={handlePasteClick}
+                      />
+                    </Tooltip>
+                  }
                 />
                 {error && <div className="text-red-500 mt-4">{error}</div>}
               </div>

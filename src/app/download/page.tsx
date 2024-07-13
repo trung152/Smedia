@@ -233,7 +233,7 @@ function page() {
           </div>
         ))}
       </div>
-      
+
       <Modal
         open={openModalVideo}
         onCancel={handleCloseVideo}
