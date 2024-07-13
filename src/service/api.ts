@@ -11,6 +11,10 @@ const axiosInstanceRapid = axios.create({
   }, */
 });
 
-export const getSocialAutoLink = async (data: any) => {
-  return await axiosInstanceRapid.post(`/social/media`, data);
+export const PostSocialJob = async (data: any) => {
+  return await axiosInstanceRapid.post(`/social/job`, data);
+};
+
+export const getSocialJob = async (data: any) => {
+  return await axiosInstanceRapid.get(`/social/job/${data}`);
 };

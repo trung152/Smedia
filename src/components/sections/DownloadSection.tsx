@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Typewriter } from "nextjs-simple-typewriter";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getSocialAutoLink } from "@/service/api";
+import { getSocialJob, PostSocialJob } from "@/service/api";
 import { useSocialAutoLink } from "@/context/SocialAutoLinkContext";
 import FullScreenLoading from "../common/Loading";
 import { Input } from "antd";
@@ -13,14 +13,56 @@ import { FaRegPaste } from "react-icons/fa6";
 import { isValidUrl, secretKey } from "@/lib/utils";
 import CryptoJS from "crypto-js";
 import { toast } from "sonner";
-
+import { ImSpinner9 } from "react-icons/im";
 function DownloadSection() {
   const [urlInput, setUrlInput] = useState("");
   const router = useRouter();
   const { setSocialAutoLinkData } = useSocialAutoLink();
 
+  const [jobId, setJobId] = useState("");
+  const [enabled, setEnabled] = useState(false);
+  const [startTime, setStartTime] = useState(Date.now());
+
+  const {
+    data: dataMedia,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["myData", jobId],
+    queryFn: () => getSocialJob(jobId),
+    refetchInterval: (data: any) => {
+      const myData = data?.state?.data?.data;
+      // Kiểm tra nếu data có trạng thái completed thì dừng gọi API
+      /*   if (myData?.status === "Complete" || myData?.status === "Timeout") {
+        return false; // Dừng refetch
+      } */
+      return 2000; // Tiếp tục gọi API sau mỗi 2 giây
+    },
+    // // Đảm bảo luôn refetch kể cả khi component không focus
+    // refetchIntervalInBackground: true,
+    enabled: enabled,
+  });
+
+  useEffect(() => {
+    if (dataMedia?.data?.status === "Complete") {
+      setEnabled(false);
+    }
+    if (dataMedia?.data?.status === "Timeout") {
+      toast.error("Request Timeout, please try again later");
+      setEnabled(false);
+    }
+
+    if (dataMedia?.data?.payload && !dataMedia?.data?.payload?.error) {
+      setSocialAutoLinkData(dataMedia?.data?.payload);
+      router.push("/download");
+    } else if (dataMedia?.data?.payload?.error) {
+      toast.error(dataMedia?.data?.payload?.message);
+    }
+  }, [dataMedia]);
+
   const mutateSocialAutoLink = useMutation({
-    mutationFn: (data: any) => getSocialAutoLink(data),
+    mutationFn: (data: any) => PostSocialJob(data),
     onMutate: () => {
       window.gtag("event", "api_request_start");
     },
@@ -30,15 +72,19 @@ function DownloadSection() {
     },
 
     onSuccess: (data) => {
-      console.log("🚀 ~ DownloadSection ~ data:", data);
-      if (data?.data?.error) {
+      console.log("🚀 ~ DownloadSection ~ data:", data?.data);
+      if (data?.data?.job) {
+        setJobId(data?.data?.job);
+        setEnabled(true);
+      }
+      /*  if (data?.data?.error) {
         window.gtag("event", "api_request_start_error");
         toast.error(data?.data?.message);
       } else {
         window.gtag("event", "api_request_start_success");
         setSocialAutoLinkData(data?.data);
         router.push("/download");
-      }
+      } */
     },
   });
 
@@ -53,14 +99,11 @@ function DownloadSection() {
         console.error("Failed to read clipboard contents: ", err);
       });
   };
-  // useEffect(() => {
-  //   if (mutateSocialAutoLink.isSuccess && mutateSocialAutoLink.data) {
-  //     setSocialAutoLinkData(mutateSocialAutoLink.data?.data);
-  //     router.push("/download");
-  //   }
-  // }, [mutateSocialAutoLink]);
 
   const handleDownloadByLink = () => {
+    if (enabled) {
+      return "";
+    }
     window.gtag("event", "btn_download");
     if (urlInput && isValidUrl(urlInput)) {
       try {
@@ -139,8 +182,11 @@ function DownloadSection() {
                 />
               </div>
               <button onClick={handleDownloadByLink} className="btn-primary">
-                Download
-                {/* <RefreshCw className='animate-spin' /> */}
+                {enabled ? (
+                  <ImSpinner9 className="animate-spin text-white size-8" />
+                ) : (
+                  "Download"
+                )}
               </button>
             </div>
             <div className="w-5/6 m-auto flex flex-col lg:flex-row mt-10 gap-4 justify-center">
@@ -170,7 +216,7 @@ function DownloadSection() {
           </div>
         </div>
       </section>
-      {mutateSocialAutoLink.isPending && <FullScreenLoading />}
+      {/* {mutateSocialAutoLink.isPending && <FullScreenLoading />} */}
     </div>
   );
 }
