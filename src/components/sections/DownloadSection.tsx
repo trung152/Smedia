@@ -12,10 +12,10 @@ import { PiAsterisk } from "react-icons/pi";
 import { FaRegPaste } from "react-icons/fa6";
 import { isValidUrl, secretKey } from "@/lib/utils";
 import CryptoJS from "crypto-js";
+import { toast } from "sonner";
 
 function DownloadSection() {
   const [urlInput, setUrlInput] = useState("");
-  const [error, setError] = useState("");
   const router = useRouter();
   const { setSocialAutoLinkData } = useSocialAutoLink();
 
@@ -33,7 +33,7 @@ function DownloadSection() {
       console.log("🚀 ~ DownloadSection ~ data:", data);
       if (data?.data?.error) {
         window.gtag("event", "api_request_start_error");
-        setError(data?.data?.message);
+        toast.error(data?.data?.message);
       } else {
         window.gtag("event", "api_request_start_success");
         setSocialAutoLinkData(data?.data);
@@ -72,17 +72,17 @@ function DownloadSection() {
         mutateSocialAutoLink.mutate({ data: encryptedData });
         // if (result.data) {
         //   if (result.data?.data?.error) {
-        //     return setError(result.data?.data?.message);
+        //     return toast.error(result.data?.data?.message);
         //   }
         //   // Assuming the result.data contains the information you need
         //   setSocialAutoLinkData(result.data?.data);
         //   router.push(`/download`);
         // }
       } catch (error) {
-        setError("An error occurred while fetching data.");
+        toast.error("An error occurred while fetching data.");
       }
     } else {
-      setError("Invalid URL");
+      toast.error("Invalid URL");
     }
   };
 
@@ -126,7 +126,6 @@ function DownloadSection() {
                   className="input h-16 falsefalse border-gray-300 border rounded-xl p-3"
                   id=""
                   onPressEnter={handleDownloadByLink}
-                  onFocus={() => setError("")}
                   placeholder="https://"
                   min="0"
                   suffix={
@@ -138,7 +137,6 @@ function DownloadSection() {
                     </Tooltip>
                   }
                 />
-                {error && <div className="text-red-500 mt-4">{error}</div>}
               </div>
               <button onClick={handleDownloadByLink} className="btn-primary">
                 Download
