@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+import LocaleSwitcher from "./LanguageSwitch";
 function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const [isNavigating, setIsNavigating] = useState(false);
   const [menu, setMenu] = useState(false);
-
-  const links = ["Help", "FAQ"];
+  const t = useTranslations();
+  const links = ["help", "faq"];
   const toggleMenu = () => {
     setMenu(!menu);
   };
@@ -46,9 +48,10 @@ function NavBar() {
                 key={index}
                 onClick={() => handleClick(link)}
               >
-                {link}
+                {t(link)}
               </p>
             ))}
+            <LocaleSwitcher />
           </div>
         </div>
       </div>
@@ -87,9 +90,10 @@ function NavBar() {
                   key={index}
                   onClick={() => handleClick(link)}
                 >
-                  {link}
+                  {t(link)}
                 </p>
               ))}
+              <LocaleSwitcher />
             </div>
           </div>
         ) : (

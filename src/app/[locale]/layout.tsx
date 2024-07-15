@@ -5,6 +5,8 @@ import "./globals.css";
 import Providers from "@/components/common/Provider";
 import NavBar from "@/components/common/NavBar";
 import FooterSection from "@/components/sections/FooterSection";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata: Metadata = {
   title: "Super Social Media Downloader",
@@ -17,14 +19,19 @@ const roboto = Roboto({
   display: "swap",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params: {locale}
 }: {
   children: React.ReactNode;
+  params: {locale: string};
 }) {
+
+  const messages = await getMessages();
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={roboto.className}>
+      <NextIntlClientProvider messages={messages}>
         <Providers>
           <main>
             <NavBar />
@@ -34,6 +41,7 @@ export default function RootLayout({
             <FooterSection />
           </main>
         </Providers>
+        </NextIntlClientProvider>
         <script src="//code.tidio.co/xgyi2qd1nggw3p5ua7njiojcvhlyn51k.js" async></script>
       </body>
       <GoogleAnalytics gaId="G-RWTRF36D3N" />

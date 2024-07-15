@@ -22,3 +22,27 @@ export function isValidUrl(url: string): boolean {
     return false;
   }
 }
+
+
+export const listLanguages = [
+  {
+    code: "en",
+    name: "English",
+    img: "/en.svg",
+  },
+  {
+    code: "es",
+    name: "Spanish",
+    img: "/es.svg",
+  },
+  {
+    code: "fr",
+    name: "French",
+    img: "/fr.svg",
+  },
+  {
+    code: "vi",
+    name: "Vietnamese",
+    img: "/vi.svg",
+  },
+];

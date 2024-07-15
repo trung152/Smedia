@@ -27,6 +27,8 @@ function DownloadSection() {
     data: dataMedia,
     isLoading,
     isError,
+    isSuccess,
+    error,
     refetch,
   } = useQuery({
     queryKey: ["myData", jobId],
@@ -62,21 +64,29 @@ function DownloadSection() {
       setEnabled(false);
     }
 
+    if (isError) {
+      window.gtag("event", "api_request_error");
+      setEnabled(false);
+      toast.error("An error occurred while fetching data");
+    }
+    if (isSuccess) {
+      setEnabled(false);
+    }
+
     if (dataMedia?.data?.payload && !dataMedia?.data?.payload?.error) {
       setSocialAutoLinkData(dataMedia?.data?.payload);
+      window.gtag("event", "api_request_data_success");
       router.push("/download");
     } else if (dataMedia?.data?.payload?.error) {
       toast.error(dataMedia?.data?.payload?.message);
+      window.gtag("event", "api_request_data_error");
     }
   }, [dataMedia]);
 
   const mutateSocialAutoLink = useMutation({
     mutationFn: (data: any) => PostSocialJob(data),
-    onMutate: () => {
-      window.gtag("event", "api_request_start");
-    },
+    onMutate: () => {},
     onError: () => {
-      window.gtag("event", "api_request_start_error");
       console.log("error");
     },
 
@@ -84,16 +94,9 @@ function DownloadSection() {
       console.log("🚀 ~ DownloadSection ~ data:", data?.data);
       if (data?.data?.job) {
         setJobId(data?.data?.job);
+        window.gtag("event", "api_request_start");
         setEnabled(true);
       }
-      /*  if (data?.data?.error) {
-        window.gtag("event", "api_request_start_error");
-        toast.error(data?.data?.message);
-      } else {
-        window.gtag("event", "api_request_start_success");
-        setSocialAutoLinkData(data?.data);
-        router.push("/download");
-      } */
     },
   });
 
@@ -110,7 +113,7 @@ function DownloadSection() {
   };
 
   const handleDownloadByLink = () => {
-    if (enabled) {
+    if (enabled || mutateSocialAutoLink.isPending) {
       return "";
     }
     window.gtag("event", "btn_download");
@@ -191,7 +194,7 @@ function DownloadSection() {
                 />
               </div>
               <button onClick={handleDownloadByLink} className="btn-primary">
-                {enabled ? (
+                {enabled || mutateSocialAutoLink.isPending ? (
                   <ImSpinner9 className="animate-spin text-white size-8" />
                 ) : (
                   "Download"
