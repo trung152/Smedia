@@ -1,5 +1,5 @@
 import React from "react";
-import { belyDisplayFont, cn } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface IProp {
   title: string;
@@ -18,7 +18,6 @@ export default function Header({ title, description, textLeft }: IProp) {
       <div
         className={cn(
           "text-[30px] md:text-large text-text leading-tight",
-          belyDisplayFont.className,
           textLeft ? "text-left" : "text-center"
         )}
       >

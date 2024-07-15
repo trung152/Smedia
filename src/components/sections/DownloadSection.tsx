@@ -32,11 +32,20 @@ function DownloadSection() {
     queryKey: ["myData", jobId],
     queryFn: () => getSocialJob(jobId),
     refetchInterval: (data: any) => {
-      const myData = data?.state?.data?.data;
+      const myData = data?.state;
+      // console.log("🚀 ~ DownloadSection ~ myData:", myData);
       // Kiểm tra nếu data có trạng thái completed thì dừng gọi API
       /*   if (myData?.status === "Complete" || myData?.status === "Timeout") {
         return false; // Dừng refetch
       } */
+      if (enabled && myData?.dataUpdateCount > 16) {
+        setEnabled(false);
+        toast.error("Request Timeout, please try again later", {
+          id: "request_timeout",
+        });
+        return false;
+      }
+
       return 2000; // Tiếp tục gọi API sau mỗi 2 giây
     },
     // // Đảm bảo luôn refetch kể cả khi component không focus

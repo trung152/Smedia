@@ -7,15 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const belyDisplayFont = localFont({
-  src: [
-    {
-      path: '../../public/font/bely_display.otf',
-      style: 'normal',
-    },
-  ],
-})
-
 export const scrollToSection = (sectionId : string) => {
   const section = document.getElementById(sectionId);
   if (section) {
