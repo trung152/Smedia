@@ -27,6 +27,7 @@ import {
   MdOutlineFileDownload,
 } from "react-icons/md";
 import Tooltip from "../common/Tooltip";
+import { useTranslations } from "next-intl";
 const icons = [
   {
     component: FaFacebook,
@@ -83,38 +84,40 @@ const icons = [
 ];
 
 const SupportedSocialSection: React.FC = () => {
+  const t = useTranslations();
   return (
-    <div id="Help" className="p-4 py-10 sm:py-16">
+    <div id="help" className="p-4 py-10 sm:py-16">
       <div>
         <div className="grid grid-cols-1 lg:grid-cols-3 p-8 gap-6">
           <div className="flex flex-col justify-center items-center font-medium">
             <MdOutlineFileCopy className="w-16 h-16 text-secondary-600 mb-4" />
-            <h2 className="text-xl font-semibold text-center mb-2">Copy URL</h2>
+            <h2 className="text-xl font-semibold text-center mb-2">
+              {t("copyUrl")}
+            </h2>
             <p className="text-sm text-gray-600 text-center max-w-xs">
-              Copy your media URL from Social Network that you need to download.
-              You can use Ctrl+C or with the context menu.
+              {t("copyUrlInstructions")}
             </p>
           </div>
           <div className="flex flex-col justify-center items-center font-medium">
             <MdContentPasteGo className="w-16 h-16 text-secondary-600 mb-4" />
             <h2 className="text-xl font-semibold text-center mb-2">
-              Paste in search field
+              {t("pasteInSearchField")}
             </h2>
             <p className="text-sm text-gray-600 text-center max-w-xs">
-              Paste media URL in the search field and click "Start". Use Ctrl+V
-              or with the context menu.
+              {t("pasteUrlInstructions")}
             </p>
           </div>
           <div className="flex flex-col justify-center items-center font-medium">
             <MdDownloadForOffline className="w-16 h-16 text-secondary-600 mb-4" />
-            <h2 className="text-xl font-semibold text-center mb-2">Download</h2>
+            <h2 className="text-xl font-semibold text-center mb-2">
+              {t("download")}
+            </h2>
             <p className="text-sm text-gray-600 text-center max-w-xs">
-              You will get a list of files for download, video, audio and photo.
-              Click the icon{" "}
+              {t("downloadFiles")}{" "}
               {
                 <MdOutlineFileDownload className="size-5 text-black mb-4 inline" />
               }{" "}
-              to start downloading the file.
+              {t("startDownload")}
             </p>
           </div>
         </div>
@@ -125,7 +128,7 @@ const SupportedSocialSection: React.FC = () => {
             */}
       </div>
       <div className="text-center text-gray-700 text-xl xl:text-3xl font-semibold mb-6 xl:mb-16 mt-10 xl:mt-16">
-        Supported Social Networks
+        {t("supportedNetworks")}
       </div>
       <div className="grid grid-cols-3  md:grid-cols-4 xl:grid-cols-5 gap-6">
         {icons.map((icon, index) => {

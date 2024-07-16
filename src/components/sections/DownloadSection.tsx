@@ -14,11 +14,12 @@ import { isValidUrl, secretKey } from "@/lib/utils";
 import CryptoJS from "crypto-js";
 import { toast } from "sonner";
 import { ImSpinner9 } from "react-icons/im";
+import { useTranslations } from "next-intl";
 function DownloadSection() {
   const [urlInput, setUrlInput] = useState("");
   const router = useRouter();
   const { setSocialAutoLinkData } = useSocialAutoLink();
-
+  const t = useTranslations();
   const [jobId, setJobId] = useState("");
   const [enabled, setEnabled] = useState(false);
   const [startTime, setStartTime] = useState(Date.now());
@@ -146,8 +147,8 @@ function DownloadSection() {
       <section id="downloader" className="section text-center pt-10 sm:pt-16">
         <div className="container mx-auto px-0 md:self-center mb-8 md:mb-0 text-center">
           <p className="text-2xl lg:text-4xl font-bold text-gray-700 mb-8 md:ml-[-50px]">
-            Download photos &amp; videos from{" "}
-            <span className="text-secondary-300 inline-block w-12 text-center">
+            {t("downloadPhotosVideos") }
+            <span className="text-secondary-300 block w-full md:inline-block md:w-12 ml-2 text-center">
               <Typewriter
                 words={[
                   "Tiktok",
@@ -166,7 +167,7 @@ function DownloadSection() {
             </span>
           </p>
           <p className="description">
-            Paste the URL of the post or media and press to download
+            {t("pasteUrlToDownload") }
           </p>
 
           <div className="form w-full  m-auto py-10 box-shadow md:w-5/6" id="">
@@ -184,7 +185,7 @@ function DownloadSection() {
                   placeholder="https://"
                   min="0"
                   suffix={
-                    <Tooltip message="Paste">
+                    <Tooltip message={t("paste") }>
                       <FaRegPaste
                         className="text-2xl text-secondary-500"
                         onClick={handlePasteClick}
@@ -197,7 +198,7 @@ function DownloadSection() {
                 {enabled || mutateSocialAutoLink.isPending ? (
                   <ImSpinner9 className="animate-spin text-white size-8" />
                 ) : (
-                  "Download"
+                  t("download")
                 )}
               </button>
             </div>
@@ -224,7 +225,7 @@ function DownloadSection() {
             </div>
           </div>
           <div className="">
-            <p>No watermarks. No registration.</p>
+            <p>{t("noWatermarksRegistration")}</p>
           </div>
         </div>
       </section>

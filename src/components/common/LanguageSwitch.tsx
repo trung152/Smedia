@@ -35,28 +35,30 @@ export default function LocaleSwitcher() {
     });
   }
   return (
-    <Select value={selectedLanguage} onValueChange={onSelectChange}>
-      <SelectTrigger className="outline-none">
-        <SelectValue placeholder="" />
-      </SelectTrigger>
-      <SelectContent>
-        {listLanguages.map((item: any) => (
-          <SelectItem key={item.code} value={item.code}>
-            <div className="flex gap-2">
-              <div className="flex items-between gap-1">
-                <Image
-                  src={item?.img}
-                  alt="logo"
-                  width={20}
-                  height={20}
-                  className="rounded-full"
-                />
-                 <div>{item.name}</div>
+    <div>
+      <Select value={selectedLanguage} onValueChange={onSelectChange}>
+        <SelectTrigger className="outline-none">
+          <SelectValue placeholder="" />
+        </SelectTrigger>
+        <SelectContent className="z-[9999]">
+          {listLanguages.map((item: any) => (
+            <SelectItem key={item.code} value={item.code}>
+              <div className="flex gap-2">
+                <div className="flex items-between gap-1">
+                  <Image
+                    src={item?.img}
+                    alt="logo"
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                  />
+                  <div>{item.name}</div>
+                </div>
               </div>
-            </div>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }

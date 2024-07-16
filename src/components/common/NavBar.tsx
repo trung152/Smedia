@@ -32,7 +32,7 @@ function NavBar() {
   };
 
   return (
-    <div className="md:sticky md:top-0  md:shadow-none z-20 ">
+    <div className="md:sticky md:top-0  md:shadow-none z-30 ">
       {/* DESKTOP */}
       <div className=" hidden lg:block animate-in fade-in zoom-in bg-white p-4 shadow-lg">
         <div className="flex justify-between mx-[41px] lg:mx-20 items-center">
@@ -43,15 +43,17 @@ function NavBar() {
           </div>
           <div className="flex items-center gap-[40px] select-none">
             {links.map((link, index) => (
-              <p
-                className={`hover:text-primary-200 cursor-pointer font-bold flex items-center gap-2  text-gray`}
+              <span
+                className={`hover:text-primary-200 cursor-pointer font-bold flex items-center gap-2 text-gray text-nowrap`}
                 key={index}
                 onClick={() => handleClick(link)}
               >
                 {t(link)}
-              </p>
+              </span>
             ))}
-            <LocaleSwitcher />
+            <div>
+              <LocaleSwitcher />
+            </div>
           </div>
         </div>
       </div>
