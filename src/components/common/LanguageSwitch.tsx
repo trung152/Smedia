@@ -34,16 +34,18 @@ export default function LocaleSwitcher() {
   }
 
   function onLanguageChange(language: any) {
-    window.flutter_inappwebview
-      .callHandler("onSelectChange", language)
-      .then(function (response: any) {
-        console.log("Phản hồi từ Flutter: " + response);
-      });
     setSelectedLanguage(language);
     const newPath = `/${language}/${removeLocalePrefix(pathname)}`;
     startTransition(() => {
       router.replace(newPath, { scroll: false });
     });
+    if (window.flutter_inappwebview) {
+      window.flutter_inappwebview
+        .callHandler("onSelectChange", language)
+        .then(function (response: any) {
+          console.log("Phản hồi từ Flutter: " + response);
+        });
+    }
   }
 
   return (
