@@ -28,18 +28,20 @@ export default function LocaleSwitcher() {
   }
 
   function onSelectChange(value: any) {
-    setSelectedLanguage(value);
-    const newPath = `/${value}/${removeLocalePrefix(pathname)}`;
-    startTransition(() => {
-      router.replace(newPath, { scroll: false });
-    });
+    console.log("🚀 ~ onSelectChange ~ value:", value);
   }
 
   function onLanguageChange(language: any) {
-    window.flutter_inappwebview.callHandler('onSelectChange', language)
-      .then(function(response: any) {
+    window.flutter_inappwebview
+      .callHandler("onSelectChange", language)
+      .then(function (response: any) {
         console.log("Phản hồi từ Flutter: " + response);
       });
+    setSelectedLanguage(language);
+    const newPath = `/${language}/${removeLocalePrefix(pathname)}`;
+    startTransition(() => {
+      router.replace(newPath, { scroll: false });
+    });
   }
 
   return (
