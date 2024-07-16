@@ -39,7 +39,7 @@ export default function LocaleSwitcher() {
     startTransition(() => {
       router.replace(newPath, { scroll: false });
     });
-    if (window.flutter_inappwebview) {
+    if (window?.flutter_inappwebview) {
       window.flutter_inappwebview
         .callHandler("onSelectChange", language)
         .then(function (response: any) {
