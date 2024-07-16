@@ -12,6 +12,7 @@ import Image from "next/image";
 import { startTransition, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { listLanguages } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function LocaleSwitcher() {
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function LocaleSwitcher() {
   }
 
   function onSelectChange(value: any) {
+    toast.success("Change language success");
     console.log("🚀 ~ onSelectChange ~ value:", value);
   }
 
