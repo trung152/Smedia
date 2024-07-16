@@ -34,9 +34,17 @@ export default function LocaleSwitcher() {
       router.replace(newPath, { scroll: false });
     });
   }
+
+  function onLanguageChange(language: any) {
+    window.flutter_inappwebview.callHandler('onSelectChange', language)
+      .then(function(response: any) {
+        console.log("Phản hồi từ Flutter: " + response);
+      });
+  }
+
   return (
     <div>
-      <Select value={selectedLanguage} onValueChange={onSelectChange}>
+      <Select value={selectedLanguage} onValueChange={onLanguageChange}>
         <SelectTrigger className="outline-none">
           <SelectValue placeholder="" />
         </SelectTrigger>
