@@ -57,6 +57,22 @@ function DownloadSection() {
   });
 
   useEffect(() => {
+    const channel = new MessageChannel();
+    const port1 = channel.port1;
+    const port2 = channel.port2;
+
+    port1.onmessage = (event) => {
+      console.log("Message received from Flutter:", event.data);
+      alert('Message received from Flutter: ' + event.data);
+      setUrlInput(event.data);
+      toast.success("Paste flutter success");
+    };
+
+    // Gửi port2 đến Flutter WebView
+    window.postMessage({ type: "init", port: port2 }, "*", [port2]);
+  }, []);
+
+  useEffect(() => {
     if (dataMedia?.data?.status === "Complete") {
       setEnabled(false);
     }
@@ -102,6 +118,10 @@ function DownloadSection() {
   });
 
   const handlePasteClick = () => {
+    if(window){
+      window?.postMessage('pasteClipboard', '*');
+      toast.success("postMessage in flutter");
+    }
     navigator.clipboard
       .readText()
       .then((text) => {
@@ -147,7 +167,7 @@ function DownloadSection() {
       <section id="downloader" className="section text-center pt-10 sm:pt-16">
         <div className="container mx-auto px-0 md:self-center mb-8 md:mb-0 text-center">
           <p className="text-2xl lg:text-4xl font-bold text-gray-700 mb-8 md:ml-[-50px]">
-            {t("downloadPhotosVideos") }
+            {t("downloadPhotosVideos")}
             <span className="text-secondary-300 block w-full md:inline-block md:w-12 ml-2 text-center">
               <Typewriter
                 words={[
@@ -166,9 +186,7 @@ function DownloadSection() {
               />
             </span>
           </p>
-          <p className="description">
-            {t("pasteUrlToDownload") }
-          </p>
+          <p className="description">{t("pasteUrlToDownload")}</p>
 
           <div className="form w-full  m-auto py-10 box-shadow md:w-5/6" id="">
             <div className="w-5/6 m-auto flex flex-col lg:flex-row">
@@ -185,7 +203,7 @@ function DownloadSection() {
                   placeholder="https://"
                   min="0"
                   suffix={
-                    <Tooltip message={t("paste") }>
+                    <Tooltip message={t("paste")}>
                       <FaRegPaste
                         className="text-2xl text-secondary-500"
                         onClick={handlePasteClick}
