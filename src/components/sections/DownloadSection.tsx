@@ -22,7 +22,6 @@ function DownloadSection() {
   const t = useTranslations();
   const [jobId, setJobId] = useState("");
   const [enabled, setEnabled] = useState(false);
-  const [startTime, setStartTime] = useState(Date.now());
 
   const {
     data: dataMedia,
@@ -56,21 +55,6 @@ function DownloadSection() {
     enabled: enabled,
   });
 
-  useEffect(() => {
-    const channel = new MessageChannel();
-    const port1 = channel.port1;
-    const port2 = channel.port2;
-
-    port1.onmessage = (event) => {
-      console.log("Message received from Flutter:", event.data);
-      alert('Message received from Flutter: ' + event.data);
-      setUrlInput(event.data);
-      toast.success("Paste flutter success");
-    };
-
-    // Gửi port2 đến Flutter WebView
-    window.postMessage({ type: "init", port: port2 }, "*", [port2]);
-  }, []);
 
   useEffect(() => {
     if (dataMedia?.data?.status === "Complete") {
@@ -118,10 +102,6 @@ function DownloadSection() {
   });
 
   const handlePasteClick = () => {
-    if(window){
-      window?.postMessage('pasteClipboard', '*');
-      toast.success("postMessage in flutter");
-    }
     navigator.clipboard
       .readText()
       .then((text) => {
