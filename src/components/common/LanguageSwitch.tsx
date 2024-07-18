@@ -28,11 +28,6 @@ export default function LocaleSwitcher() {
     return pathname; // Trả về pathname ban đầu nếu không có sự phù hợp
   }
 
-  function onSelectChange(value: any) {
-    toast.success("Change language success");
-    console.log("🚀 ~ onSelectChange ~ value:", value);
-  }
-
   function onLanguageChange(language: any) {
     setSelectedLanguage(language);
     const newPath = `/${language}/${removeLocalePrefix(pathname)}`;
@@ -43,7 +38,8 @@ export default function LocaleSwitcher() {
       window.flutter_inappwebview
         .callHandler("onSelectChange", language)
         .then(function (response: any) {
-          console.log("Phản hồi từ Flutter: " + response);
+          // console.log("Phản hồi từ Flutter: " + response);
+          // toast.success( JSON.stringify(response));
         });
     }
   }

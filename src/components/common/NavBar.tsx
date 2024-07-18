@@ -3,10 +3,10 @@
 import { scrollToSection } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { IoMenu, IoClose } from "react-icons/io5";
-import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "./LanguageSwitch";
+import { usePathname, useRouter } from "@/navigation";
 function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -25,7 +25,7 @@ function NavBar() {
       scrollToSection(sectionId);
     } else {
       // If on another page, navigate to home then scroll
-      await router.push("/");
+      router.push("/");
       toggleMenu();
       setTimeout(() => scrollToSection(sectionId), 100);
     }

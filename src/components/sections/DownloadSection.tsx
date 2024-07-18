@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Typewriter } from "nextjs-simple-typewriter";
-import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getSocialJob, PostSocialJob } from "@/service/api";
 import { useSocialAutoLink } from "@/context/SocialAutoLinkContext";
@@ -15,6 +14,7 @@ import CryptoJS from "crypto-js";
 import { toast } from "sonner";
 import { ImSpinner9 } from "react-icons/im";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/navigation";
 function DownloadSection() {
   const [urlInput, setUrlInput] = useState("");
   const router = useRouter();
@@ -22,6 +22,7 @@ function DownloadSection() {
   const t = useTranslations();
   const [jobId, setJobId] = useState("");
   const [enabled, setEnabled] = useState(false);
+  console.log("🚀 ~ DownloadSection ~ enabled:", enabled)
 
   const {
     data: dataMedia,
@@ -55,7 +56,6 @@ function DownloadSection() {
     enabled: enabled,
   });
 
-
   useEffect(() => {
     if (dataMedia?.data?.status === "Complete") {
       setEnabled(false);
@@ -69,9 +69,6 @@ function DownloadSection() {
       window.gtag("event", "api_request_error");
       setEnabled(false);
       toast.error("An error occurred while fetching data");
-    }
-    if (isSuccess) {
-      setEnabled(false);
     }
 
     if (dataMedia?.data?.payload && !dataMedia?.data?.payload?.error) {
@@ -102,15 +99,24 @@ function DownloadSection() {
   });
 
   const handlePasteClick = () => {
-    navigator.clipboard
-      .readText()
-      .then((text) => {
-        setUrlInput(text);
-        // alert(`Pasted content: ${text}`);
-      })
-      .catch((err) => {
-        console.error("Failed to read clipboard contents: ", err);
-      });
+    if (window?.flutter_inappwebview) {
+      window.flutter_inappwebview
+        .callHandler("onPasteInFlutter", "???")
+        .then(function (response: any) {
+          // console.log("Phản hồi từ Flutter: " + response);
+          setUrlInput((prev) => prev + response);
+        });
+    } else {
+      navigator.clipboard
+        .readText()
+        .then((text) => {
+          setUrlInput(text);
+          // alert(`Pasted content: ${text}`);
+        })
+        .catch((err) => {
+          console.error("Failed to read clipboard contents: ", err);
+        });
+    }
   };
 
   const handleDownloadByLink = () => {

@@ -14,37 +14,40 @@ function page() {
   const [openModalVideo, setOpenModalVideo] = useState(false);
   const { socialAutoLinkData: mediaData } = useSocialAutoLink();
   const router = useRouter();
-  /*  const mediaData = {
-    url: "https://www.instagram.com/p/C8YRnfWNCUH/?igsh=NTc4MTIwNjQ2YQ==",
-    source: "instagram",
-    author: "Leo Messi",
-    title: "Instagram",
+  /*   const mediaData = {
+    url: "https://vt.tiktok.com/ZSYxeXrqY/",
+    source: "tiktok",
+    author: "Vb",
+    title:
+      "nhìn vào đôi mắt của nhau, đừng lừa dối nhau#xu#canhdepthiennhien #chill⛰️",
     thumbnail:
-      "https://scontent.cdninstagram.com/v/t51.29350-15/448515160_468505739164570_6859098820114253223_n.jpg?stp=dst-jpg_e35_s1080x1080&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=Pe0cxcA_YRQQ7kNvgHsSczZ&gid=0d5822c1969f4e738127f9744db7590e&edm=APs17CUBAAAA&ccb=7-5&oh=00_AYDu6UauI-77h1e3_6tVkWMvsbsChOaWP9ORQiHFXqStMQ&oe=6691590E&_nc_sid=10d13b",
+      "https://p16-sign-sg.tiktokcdn.com/aweme/300x400/tos-alisg-p-0037/oMeZpIGjRwGfnevIZRLdJQqkGwfWgAF8I4CAuA.webp?lk3s=d05b14bd&nonce=63916&refresh_token=18eecb575738068cee4019e2aaede7f8&x-expires=1721354400&x-signature=tp%2BSF%2FsKfV3HKSFTLQqGtrrtRKQ%3D&s=AWEME_DETAIL&se=false&sh=&sc=cover&l=20240718025349FC3FB20E95103E075364&shp=d05b14bd&shcp=-",
+    duration: 18669,
     medias: [
       {
-        url: "https://scontent.cdninstagram.com/v/t51.29350-15/448515160_468505739164570_6859098820114253223_n.jpg?stp=dst-jpg_e35_s1080x1080&_nc_ht=scontent.cdninstagram.com&_nc_cat=1&_nc_ohc=Pe0cxcA_YRQQ7kNvgHsSczZ&edm=APs17CUBAAAA&ccb=7-5&oh=00_AYBbrBBnziA6m0m3K-wIMHyxD9bNFKhxVVQ-jK9oeQYwcA&oe=6691590E&_nc_sid=10d13b",
-        quality: "1080-1080p",
-        type: "image",
-        extension: "jpg",
+        url: "https://v16e.tiktokcdn.com/a49e0e2b093a47bbb1799dce9e81bd84/6698d830/video/tos/alisg/tos-alisg-pve-0037c001/oIeJAcrjIZLDQAIBRTkLXRAGF0HYfIGedeAAgG/?a=1340&bti=OUBzOTg7QGo6OjZAL3AjLTAzYCMxNDNg&ch=0&cr=13&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C&cv=1&br=3070&bt=1535&cs=2&ds=3&ft=arF-uqI3mDUPD12tjLz73wUFDPfRaeF~O5&mime_type=video_mp4&qs=14&rc=ZWQzODw5NjhkZDM7PDRkNUBpM2g6c3k5cjw3czMzODczNEBeNC8wMWMuXjExMjBgYDMyYSMzMWEyMmQ0NHNgLS1kMS1zcw%3D%3D&vvpl=1&l=20240718025349FC3FB20E95103E075364&btag=e00088000",
+        quality: "hd_no_watermark",
+        extension: "mp4",
+        type: "video",
       },
       {
-        url: "https://scontent.cdninstagram.com/v/t51.29350-15/448536838_292146970645067_8286507692938410998_n.jpg?stp=dst-jpg_e35_s1080x1080&_nc_ht=scontent.cdninstagram.com&_nc_cat=111&_nc_ohc=6bJyWuvzPfcQ7kNvgFwKMdV&edm=APs17CUBAAAA&ccb=7-5&oh=00_AYBTr5zGXSyG-AXGgRbHMIulWj5lJ_osNbWU2wMnUqtRFQ&oe=669165ED&_nc_sid=10d13b",
-        quality: "1080-1080p",
-        type: "image",
-        extension: "jpg",
+        url: "https://v16e.tiktokcdn.com/4615361c1f6bae150cdd07d61991aaa6/6698d830/video/tos/alisg/tos-alisg-pve-0037c001/o8eZtkGjRLGfTebI2RLdJQqkGYPLIAFeIcgAXA/?a=1340&bti=OUBzOTg7QGo6OjZAL3AjLTAzYCMxNDNg&ch=0&cr=13&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C&cv=1&br=6874&bt=3437&cs=0&ds=6&ft=arF-uqI3mDUPD12tjLz73wUFDPfRaeF~O5&mime_type=video_mp4&qs=0&rc=O2loZDo1O2c6ZDlpOmc1OkBpM2g6c3k5cjw3czMzODczNEA2Ly1eLTM1XzExMzJfNjMuYSMzMWEyMmQ0NHNgLS1kMS1zcw%3D%3D&vvpl=1&l=20240718025349FC3FB20E95103E075364&btag=e00088000",
+        quality: "no_watermark",
+        extension: "mp4",
+        type: "video",
       },
       {
-        url: "https://scontent.cdninstagram.com/v/t51.29350-15/448619881_689103980023043_7723377097536980412_n.jpg?stp=dst-jpg_e35_s1080x1080&_nc_ht=scontent.cdninstagram.com&_nc_cat=111&_nc_ohc=Yc9iM8p-H88Q7kNvgFtofj0&edm=APs17CUBAAAA&ccb=7-5&oh=00_AYAmVKC7CmZ6IpUJGaTIc5KBI5q7cSGHbJdBC-X5lkKdaQ&oe=669159A4&_nc_sid=10d13b",
-        quality: "1080-1080p",
-        type: "image",
-        extension: "jpg",
+        url: "https://v16e.tiktokcdn.com/554db8fc041a5fcdce83fd8b0310ba57/6698d830/video/tos/alisg/tos-alisg-pve-0037c001/oUFLAScfPLrOXRIgQZIGeeeYIv4jAdTLGA9JkG/?a=1340&bti=OUBzOTg7QGo6OjZAL3AjLTAzYCMxNDNg&ch=0&cr=13&dr=0&er=0&lr=all&net=0&cd=0%7C0%7C0%7C&cv=1&br=6470&bt=3235&cs=0&ds=3&ft=arF-uqI3mDUPD12tjLz73wUFDPfRaeF~O5&mime_type=video_mp4&qs=0&rc=OjY4PGk5N2loOjU8Z2g6OUBpM2g6c3k5cjw3czMzODczNEAtNl5gLzQ1XzQxNWNhLmIyYSMzMWEyMmQ0NHNgLS1kMS1zcw%3D%3D&vvpl=1&l=20240718025349FC3FB20E95103E075364&btag=e00088000",
+        quality: "watermark",
+        extension: "mp4",
+        type: "video",
       },
       {
-        url: "https://scontent.cdninstagram.com/v/t51.29350-15/448611875_2427809187608943_6010081927338420369_n.jpg?stp=dst-jpg_e35_s1080x1080&_nc_ht=scontent.cdninstagram.com&_nc_cat=103&_nc_ohc=s2l2wOyWjE4Q7kNvgEkgIQW&edm=APs17CUBAAAA&ccb=7-5&oh=00_AYD5Zj73pGmau-SDjooRTnRirSJu2pT75t1XESHzoXToSQ&oe=66915F82&_nc_sid=10d13b",
-        quality: "1080-1080p",
-        type: "image",
-        extension: "jpg",
+        url: "https://sf16-ies-music.tiktokcdn.com/obj/ies-music-aiso/7087431100099791642.mp3",
+        duration: 58,
+        quality: "audio",
+        extension: "mp3",
+        type: "audio",
       },
     ],
     type: "multiple",
@@ -109,9 +112,20 @@ function page() {
   });
 
   console.log("🚀 ~ hasVideo ~ hasVideo:", hasVideo);
-  // const handleDownload = (url: string, filename: string) => {
-  //   download(url, filename);
-  // };
+  const handleDownload = (url: string, filename: string) => {
+    const newUrl = `https://api.zm.io.vn/download/?url=${url}`;
+
+    if (window?.flutter_inappwebview) {
+      window.flutter_inappwebview
+        .callHandler("onDownload", newUrl, filename)
+        .then(function (response: any) {
+          // console.log("Phản hồi từ Flutter: " + response);
+          // toast.success();
+        });
+    } else {
+      download(newUrl, filename);
+    }
+  };
 
   const handleOpenVideo = () => {
     setOpenModalVideo(true);
@@ -169,7 +183,7 @@ function page() {
           </div>
         </div>
         <div className="flex-1 flex flex-col justify-center items-center gap-2 mt-5 lg:mt-0">
-          {mediaNotImage?.map((media: any, index: number) => (
+          {mediaNotImage?.map((media: any, index: number) =>
             // <button
             //   key={index}
             //   className={`btn-primary ${getClassNameByType(media)}`}
@@ -182,15 +196,30 @@ function page() {
             // >
             //   <Download className="mr-3" /> {media.quality}
             // </button>
-            <a
-              key={index}
-              className={`btn-primary ${getClassNameByType(media)}`}
-              href={`https://api.zm.io.vn/download/?url=${media.url}`}
-              download
-            >
-              <MdOutlineFileDownload className="mr-3" /> {media.quality}
-            </a>
-          ))}
+            window?.flutter_inappwebview ? (
+              <button
+                key={index}
+                className={`btn-primary ${getClassNameByType(media)}`}
+                onClick={() =>
+                  handleDownload(
+                    media.url,
+                    `media-${new Date().getTime()}.${media.extension}`
+                  )
+                }
+              >
+                <MdOutlineFileDownload className="mr-3" /> {media.quality}
+              </button>
+            ) : (
+              <a
+                key={index}
+                className={`btn-primary ${getClassNameByType(media)}`}
+                download
+                href={`https://api.zm.io.vn/download/?url=${media?.url}`}
+              >
+                <MdOutlineFileDownload className="mr-3" /> {media.quality}
+              </a>
+            )
+          )}
           {/* {mediaImage?.length > 0 && (
             <button
               onClick={handleDownloadAllImg}
@@ -220,14 +249,29 @@ function page() {
                 className="object-cover overflow-hidden w-64 h-6w-64 max-h-6w-64 max-w-64 rounded-lg "
               />
               <div className=" flex justify-center items-center mt-2">
-                <a
-                  key={index}
-                  href={`https://api.zm.io.vn/download/?url=${media.url}`}
-                  download
-                  className="font-bold bg-gray-300 text-black p-2 rounded w-full flex justify-center"
-                >
-                  <MdOutlineFileDownload />
-                </a>
+                {window?.flutter_inappwebview ? (
+                  <button
+                    key={index}
+                    onClick={() =>
+                      handleDownload(
+                        media.url,
+                        `media-${new Date().getTime()}.${media.extension}`
+                      )
+                    }
+                    className="font-bold bg-gray-300 text-black p-2 rounded w-full flex justify-center"
+                  >
+                    <MdOutlineFileDownload />
+                  </button>
+                ) : (
+                  <a
+                    key={index}
+                    href={`https://api.zm.io.vn/download/?url=${media.url}`}
+                    download
+                    className="font-bold bg-gray-300 text-black p-2 rounded w-full flex justify-center"
+                  >
+                    <MdOutlineFileDownload />
+                  </a>
+                )}
               </div>
             </div>
           </div>
