@@ -115,7 +115,7 @@ function page() {
 
   console.log("🚀 ~ hasVideo ~ hasVideo:", hasVideo);
   const handleDownload = (url: string, filename: string) => {
-    const newUrl = `https://api.zm.io.vn/download/?url=${url}`;
+    const newUrl = url;
 
     if (window?.flutter_inappwebview) {
       window.flutter_inappwebview
@@ -161,7 +161,7 @@ function page() {
   if (!mediaData || mediaData?.error) {
     return <div className="h-screen"></div>;
   }
-  return (
+  return (  
     <div className="pb-8 min-h-screen">
       <div className="lg:flex xl:mx-10">
         <div className="bg-neutral-200 p-4 lg:flex flex-1 gap-4 rounded-lg">
