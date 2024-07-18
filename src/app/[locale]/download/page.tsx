@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { FaPlay } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
+import { useTranslations } from "next-intl";
 
 function page() {
   const { download } = useDownloader();
   const [openModalVideo, setOpenModalVideo] = useState(false);
   const { socialAutoLinkData: mediaData } = useSocialAutoLink();
+  const t = useTranslations();
   const router = useRouter();
   /*   const mediaData = {
     url: "https://vt.tiktok.com/ZSYxeXrqY/",
@@ -179,7 +181,7 @@ function page() {
             <p className="font-bold mb-5 lg:text-lg xl:text-xl">
               {mediaData?.title}
             </p>
-            <p>Author: {mediaData?.author}</p>
+            <p>{mediaData?.author}</p>
           </div>
         </div>
         <div className="flex-1 flex flex-col justify-center items-center gap-2 mt-5 lg:mt-0">
@@ -232,7 +234,7 @@ function page() {
             className={`btn-primary bg-black`}
             onClick={() => router.push(`/`)}
           >
-            Other Download
+            {t("otherDownload")}
           </button>
         </div>
       </div>
