@@ -17,6 +17,15 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/app/:slug.php',
+        destination: '/app/:slug.html',
+      },
+      // Add more rewrites as needed
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
